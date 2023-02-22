@@ -1,4 +1,5 @@
 import datetime
+from pprint import pprint
 from typing import Optional
 
 from fastapi import FastAPI
@@ -15,12 +16,11 @@ async def root():
 
 
 @app.get("/objects")
-async def get_objects(start_date: Optional[datetime.date] = None, end_date: Optional[datetime.date] = None):
+async def get_objects(start_date: Optional[datetime.date] = datetime.datetime.today().date(), end_date: Optional[datetime.date] = datetime.datetime.today().date()) -> dict:
     config = ConfigParser()
     config.read("config.ini")
     url = config["DEFAULT"]["url"]
     api_token = config["DEFAULT"]["api_token"]
 
     data = await get_data(url, start_date, end_date, api_token)
-    # print(data["data"]["near_earth_objects"])
-    return data["data"]["near_earth_objects"]
+    return data

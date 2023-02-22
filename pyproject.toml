@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mamma-app"
+name = "mamma_app"
 version = "0.1.0"
 description = ""
 authors = ["jakubturner <kuba.turner@gmail.com>"]
