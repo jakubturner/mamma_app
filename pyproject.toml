@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "mamma-app"
+version = "0.1.0"
+description = ""
+authors = ["jakubturner <kuba.turner@gmail.com>"]
+readme = "README.md"
+packages = [{include = "mamma_app"}]
+include = ["*.conf"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.92.0"
+aiohttp = "^3.8.4"
+pyhocon = "^0.3.60"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
