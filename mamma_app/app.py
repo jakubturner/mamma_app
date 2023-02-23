@@ -1,13 +1,21 @@
 import datetime
-from pprint import pprint
 from typing import Optional
 
 from fastapi import FastAPI
 
+from mamma_app.model import EarthObjectParsed
 from mamma_app.neo_ws_service import get_data
 from configparser import ConfigParser
 
 app = FastAPI()
+
+
+async def get_config():
+    config = ConfigParser()
+    config.read("config.ini")
+    url = config["DEFAULT"]["url"]
+    api_token = config["DEFAULT"]["api_token"]
+    return url, api_token
 
 
 @app.get("/")
@@ -16,11 +24,8 @@ async def root():
 
 
 @app.get("/objects")
-async def get_objects(start_date: Optional[datetime.date] = datetime.datetime.today().date(), end_date: Optional[datetime.date] = datetime.datetime.today().date()) -> dict:
-    config = ConfigParser()
-    config.read("config.ini")
-    url = config["DEFAULT"]["url"]
-    api_token = config["DEFAULT"]["api_token"]
-
+async def get_objects(start_date: Optional[datetime.date] = datetime.datetime.today().date(),
+                      end_date: Optional[datetime.date] = datetime.datetime.today().date()) -> list[EarthObjectParsed]:
+    url, api_token = await get_config()
     data = await get_data(url, start_date, end_date, api_token)
     return data
