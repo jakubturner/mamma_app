@@ -12,6 +12,7 @@ python = "^3.10"
 fastapi = "^0.92.0"
 pyhocon = "^0.3.60"
 uvicorn = "^0.20.0"
+aiohttp = "^3.8.4"
 
 [build-system]
 requires = ["poetry-core"]

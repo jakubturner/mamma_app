@@ -1,7 +1,7 @@
 import datetime
 from typing import Optional
 
-from fastapi import FastAPI, status, HTTPException
+from fastapi import FastAPI, HTTPException, status
 
 from mamma_app.model import EarthObjectParsed
 from mamma_app.neo_ws_service import get_data
@@ -10,7 +10,7 @@ from configparser import ConfigParser
 app = FastAPI()
 
 
-async def get_config():
+async def get_config() -> tuple[str, str]:
     config = ConfigParser()
     config.read("config.ini")
     url = config["DEFAULT"]["url"]
