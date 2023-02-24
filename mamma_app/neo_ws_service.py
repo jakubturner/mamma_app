@@ -1,12 +1,27 @@
 import datetime
 import json
+import math
 
 from aiohttp import ClientSession
 
 from mamma_app.model import EarthObject, EarthObjectParsed
 
 
-async def get_data(url: str, start_date: datetime.date, end_date: datetime.date, api_key: str) -> list[EarthObjectParsed]:
+async def get_time_range_data(url: str, start_date: datetime.date, end_date: datetime.date, api_key: str) -> list[
+    EarthObjectParsed]:
+    print("get RANGE called")
+    final_data = []
+    num_days = (end_date - start_date).days
+    for i in range(math.ceil(num_days / 7)):
+        st_date = start_date + datetime.timedelta(days=i * 7)
+        en_date = st_date + datetime.timedelta(days=7)
+        final_data.extend(await get_data(url=url, start_date=st_date, end_date=min([end_date, en_date]), api_key=api_key))
+    return sorted(final_data, key=lambda x: x.distance)
+
+
+async def get_data(url: str, start_date: datetime.date, end_date: datetime.date, api_key: str) -> list[
+    EarthObjectParsed]:
+    print("get DATA called")
     async with ClientSession() as session:
         async with session.get(url=f"{url}?start_date={start_date}&end_date={end_date}&api_key={api_key}") as response:
             response = await response.read()
@@ -25,4 +40,4 @@ async def get_data(url: str, start_date: datetime.date, end_date: datetime.date,
                         items.append(parsed_object)
                     except Exception:
                         pass
-            return sorted(items, key=lambda x: x.distance)
+            return items
