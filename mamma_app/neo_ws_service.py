@@ -9,7 +9,6 @@ from mamma_app.model import EarthObject, EarthObjectParsed
 
 async def get_time_range_data(url: str, start_date: datetime.date, end_date: datetime.date, api_key: str) -> list[
     EarthObjectParsed]:
-    print("get RANGE called")
     final_data = []
     num_days = (end_date - start_date).days
     for i in range(math.ceil(num_days / 7)):
@@ -21,7 +20,6 @@ async def get_time_range_data(url: str, start_date: datetime.date, end_date: dat
 
 async def get_data(url: str, start_date: datetime.date, end_date: datetime.date, api_key: str) -> list[
     EarthObjectParsed]:
-    print("get DATA called")
     async with ClientSession() as session:
         async with session.get(url=f"{url}?start_date={start_date}&end_date={end_date}&api_key={api_key}") as response:
             response = await response.read()
