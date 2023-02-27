@@ -14,6 +14,24 @@ pyhocon = "^0.3.60"
 uvicorn = "^0.20.0"
 aiohttp = "^3.8.4"
 python-dotenv = "^1.0.0"
+pytest = "^7.2.1"
+httpx = "^0.23.3"
+
+[tool.poetry.dev-dependencies]
+poethepoet = "^0.18.1"
+black = "^22.12.0"
+isort = "^5.11.4"
+
+[tool.poe.tasks]
+_black = "black ."
+_isort = "isort ."
+format-code = ["_isort", "_black"]
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 99
 
 [build-system]
 requires = ["poetry-core"]
