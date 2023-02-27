@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 
 from pydantic import BaseModel
@@ -74,3 +76,21 @@ class EarthObjectParsed(BaseModel):
     size_estimate: Kilometers
     time: str
     distance: float
+
+    def __lt__(self, other: EarthObjectParsed) -> bool:
+        return self.distance < other.distance
+
+    def __le__(self, other: EarthObjectParsed) -> bool:
+        return self.distance <= other.distance
+
+    def __eq__(self, other: EarthObjectParsed) -> bool:
+        return self.distance == other.distance
+
+    def __ne__(self, other: EarthObjectParsed) -> bool:
+        return self.distance != other.distance
+
+    def __gt__(self, other: EarthObjectParsed) -> bool:
+        return self.distance > other.distance
+
+    def __ge__(self, other: EarthObjectParsed) -> bool:
+        return self.distance >= other.distance

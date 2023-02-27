@@ -1,4 +1,6 @@
+import asyncio
 import datetime
+import itertools
 import json
 import math
 
@@ -10,24 +12,27 @@ from mamma_app.model import EarthObject, EarthObjectParsed
 async def get_time_range_data(
     api_limit: int, api_token: str, url: str, start_date: datetime.date, end_date: datetime.date
 ) -> list[EarthObjectParsed]:
-    final_data = []
     num_days = (end_date - start_date).days
+    coroutines = []
 
     if num_days < api_limit:
-        final_data.extend(
-            await get_data(api_token=api_token, url=url, start_date=start_date, end_date=end_date)
+        results = await get_data(
+            api_token=api_token, url=url, start_date=start_date, end_date=end_date
         )
+        return sorted(results)
 
     for i in range(math.ceil(num_days / api_limit)):
         st_date = start_date + datetime.timedelta(days=i * api_limit)
         en_date = st_date + datetime.timedelta(days=api_limit)
-        final_data.extend(
-            await get_data(
+
+        coroutines.append(
+            get_data(
                 api_token=api_token, url=url, start_date=st_date, end_date=min([end_date, en_date])
             )
         )
 
-    return sorted(final_data, key=lambda x: x.distance)
+    results = list(itertools.chain(*await asyncio.gather(*coroutines, return_exceptions=True)))
+    return sorted(results)
 
 
 async def get_data(
@@ -53,6 +58,7 @@ async def get_data(
                                 distance=close_apr_data.miss_distance.kilometers,
                             )
                         items.append(parsed_object)
-                    except Exception:
-                        pass
+                    except Exception as e:
+                        print(e)
+                        raise
             return items
