@@ -1,6 +1,6 @@
 # Mamma_app
 
-## Basic information:
+## Basic informations:
 
 by default api has 2 endpoints:
 
