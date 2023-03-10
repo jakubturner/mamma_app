@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, status
 
 from mamma_app.model import EarthObjectParsed
-from mamma_app.neo_ws_service import get_time_range_data
+from mamma_app.neo_ws_service import get_earth_objects_in_time_range
 
 app = FastAPI()
 
@@ -34,7 +34,7 @@ async def get_objects(
     end_date: Optional[datetime.date] = datetime.datetime.today().date(),
 ) -> list[EarthObjectParsed]:
     url, api_token, api_limit = await get_config()
-    data = await get_time_range_data(
+    data = await get_earth_objects_in_time_range(
         api_limit=api_limit, api_token=api_token, url=url, start_date=start_date, end_date=end_date
     )
     if len(data) == 0:

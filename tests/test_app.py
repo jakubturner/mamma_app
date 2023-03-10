@@ -5,7 +5,7 @@ from aioresponses import aioresponses
 from starlette.testclient import TestClient
 
 from mamma_app.app import app, get_config
-from mamma_app.neo_ws_service import get_data
+from mamma_app.neo_ws_service import get_earth_objects
 
 client = TestClient(app)
 
