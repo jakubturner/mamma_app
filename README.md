@@ -1,6 +1,6 @@
 # Mamma_app
 
-## Basic informations:
+## Basic information:
 
 by default api has 2 endpoints:
 
@@ -8,9 +8,9 @@ by default api has 2 endpoints:
   - GET `/`
   - GET `/objects`
 
-If you don't specify date range on `/objects` endpoint it gives you todays result as default
+If you don't specify date range on `/objects` endpoint it gives you today's result as default
 
-The nasa api has 7 days limit, so if you specify more than 7 days data range - the api handle that sequentially now (it is not effective and it is space for improvement).
+The nasa api has 7 days limit, so if you specify more than 7 days data range - the api handle that sequentially now (it is not effective, and it is space for improvement).
 
 ## Tools:
 
@@ -39,7 +39,7 @@ You also need docker if you want to run app locally with Docker
 
 - First create virtual environment using poetry
 
-use poetry shell in root directory - this create virtual environment for you:
+use poetry shell in root directory - this creates virtual environment for you:
 
 ```shell
 poetry shell
@@ -59,7 +59,7 @@ python -m uvicorn mamma_app.app:app --reload
 
 ## How to build it and run it using Docker
 
-- you can build docker image runnig this command:
+- you can build docker image running this command:
 
 ```shell
 docker build -t mamma_app:latest .
@@ -71,4 +71,4 @@ docker build -t mamma_app:latest .
 docker run -p 8000:8000 mamma_app
 ```
 
-The API should waits for you on port 8000
+The API should wait for you on port 8000
